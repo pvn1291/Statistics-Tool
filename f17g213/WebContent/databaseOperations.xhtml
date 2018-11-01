@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<body>
+	<div align="center">
+		<h1>IDS 517 | f17g213</h1>
+		<h:form>
+			<h:panelGrid align="center">
+				<h:commandButton value="Home" action="selectOperations.xhtml">
+				</h:commandButton>
+				<h:commandButton value="Logout" action="#{databaseBean.processLogout}"
+					styleClass="button" align="center">
+				</h:commandButton>
+			</h:panelGrid>
+		</h:form>
+	</div>
+	<hr />
+	<f:view>
+		<div align="center">
+			<h:form>
+				<h:panelGrid columns="4" align="center">
+					<h:panelGrid rows="2">
+						<h:outputLabel align="left" value="Database Schemas"
+							for="selectedSchema" style="font-weight:bold" />
+						<h:selectOneListbox align="center" size="8" style="width:150px"
+							styleClass="selectOneListbox_mono"
+							value="#{databaseBean.selectedSchema}">
+							<f:ajax event="click" execute="@this"
+								render="@this tableChange columnChange queryChange" />
+							<f:selectItems value="#{databaseBean.schemaList}" />
+						</h:selectOneListbox>
+					</h:panelGrid>
+					<h:panelGrid rows="2">
+						<h:outputLabel align="left" value="Tables in Current Schema" for="tableName"
+							style="font-weight:bold" />
+						<h:selectOneListbox id="tableChange" align="center" size="8"
+							style="width:150px" styleClass="selectOneListbox_mono"
+							value="#{databaseBean.tableName}">
+							<f:ajax event="click" execute="@this" render="@this columnChange" />
+							<f:selectItems value="#{databaseBean.tableList}" />
+						</h:selectOneListbox>
+					</h:panelGrid>
+					<h:panelGrid rows="2">
+						<h:outputLabel align="left" value="Columns in Current Table"
+							for="columnNamesSelected" style="font-weight:bold" />
+						<h:selectManyListbox id="columnChange" align="center" size="8"
+							style="width:150px" styleClass="selectManyListbox"
+							value="#{databaseBean.columnNamesSelected}">
+							<f:selectItems value="#{databaseBean.columnList}" />
+						</h:selectManyListbox>
+					</h:panelGrid>
+					<h:panelGrid rows="2">
+						<h:outputLabel align="left" value="Generated Query" for="sqlQuery"
+							style="font-weight:bold" />
+						<h:inputTextarea id="queryChange" cols="30" rows="8"
+							style="width:150px" value="#{databaseBean.sqlQuery}" />
+					</h:panelGrid>
+				</h:panelGrid>
+				<h:panelGrid columns="4">
+					<h:commandButton type="submit" value="Display Table"
+						action="#{databaseBean.displayTable}" />
+					<h:commandButton type="submit" value="Drop Table"
+						action="#{databaseBean.dropTables}">
+						<f:ajax event="click" execute="@this" render="@this tableChange columnChange" />
+					</h:commandButton>
+					<h:commandButton type="submit" value="Export to File"
+						action="#{databaseBean.processFileDownload}" />
+				</h:panelGrid>
+				<br />
+				<h:outputText value="#{databaseBean.message}"
+					rendered="#{databaseBean.messageRendered}" style="color:red" />
+				<br />
+				<div
+					style="background-attachment: scroll; overflow: auto; height: 400px; background-repeat: repeat">
+					<t:dataTable value="#{databaseBean.resultSet}" var="row"
+						rendered="#{databaseBean.queryRendered}" border="1"
+						cellspacing="0" cellpadding="1"
+						columnClasses="columnClass1 border" headerClass="headerClass"
+						footerClass="footerClass" rowClasses="rowClass2"
+						styleClass="dataTableEx" width="700">
+						<t:columns style="color:blue" var="col"
+							value="#{databaseBean.columnNamesSelected}"
+							rendered="#{databaseBean.queryRendered}">
+							<f:facet name="header">
+								<t:outputText styleClass="outputHeader" value="#{col}" />
+							</f:facet>
+							<div align="center">
+								<t:outputText styleClass="outputText" value="#{row[col]}" />
+							</div>
+						</t:columns>
+					</t:dataTable>
+					<t:dataTable value="#{databaseBean.resultSet}" var="row"
+						rendered="#{databaseBean.processQueryRendered}" border="1"
+						cellspacing="0" cellpadding="1"
+						columnClasses="columnClass1 border" headerClass="headerClass"
+						footerClass="footerClass" rowClasses="rowClass2"
+						styleClass="dataTableEx" width="700">
+						<t:columns style="color:blue" var="col"
+							value="#{databaseBean.columnList}"
+							rendered="#{databaseBean.processQueryRendered}">
+							<f:facet name="header">
+								<t:outputText styleClass="outputHeader" value="#{col}" />
+							</f:facet>
+							<div align="center">
+								<t:outputText styleClass="outputText" value="#{row[col]}" />
+							</div>
+						</t:columns>
+					</t:dataTable>
+				</div>
+			</h:form>
+		</div>
+	</f:view>
+</body>
+</html>

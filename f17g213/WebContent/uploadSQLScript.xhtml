@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<body>
+<div align="center">
+		<div align="center">
+			<h1>IDS517 : f17g213</h1>
+			<h3>Upload SQL Script</h3>
+			<h:form>
+			<h:commandButton value="Home" action="selectOperations.xhtml">			
+			</h:commandButton>
+			<br />
+			<h:commandButton value="Logout" action="#{databaseBean.processLogout}"
+				styleClass="button" align="center">
+			</h:commandButton>
+		</h:form>
+			<hr />
+		</div>
+		<h:form enctype="multipart/form-data">
+			<h:panelGrid columns="2"
+				style ="
+				border-bottom-style: solid;
+				border-top-style: solid;
+				border-left-style: solid;
+				border-right-style: solid">
+				<h:outputLabel value="Upload SQL Script:" />
+				<t:inputFileUpload id="fileUpload" label="Upload File :"
+					storage="default" value="#{dataUpload.uploadedFile}" size="100" />
+				<h:commandButton id="upload"
+					action="#{dataUploadActions.processFileUpload}"
+					value="Upload Script">
+					<!-- <f:ajax event="click" execute="@this" render="@this newUpload" /> -->
+				</h:commandButton>
+			</h:panelGrid>
+			<h:panelGrid rendered="#{dataUploadActions.renderMessage}">
+				<h:outputText value="#{dataUploadActions.message}" />
+			</h:panelGrid>
+			<h:panelGrid rendered="#{dataUploadActions.renderErrorMessage}">
+				<h:outputText style="color:red;"
+					value="#{dataUploadActions.errorMessage}" />
+			</h:panelGrid>
+			<h:panelGrid id="newUpload"
+				rendered="#{dataUploadActions.renderScriptNames}">
+				<h:outputLabel align="center" value="Choose Script:"
+					for="selectedScript" style="font-weight:bold" />
+				<h:selectOneMenu value="#{dataUploadActions.selectedScript}">
+					<f:selectItems value="#{dataUploadActions.sciptNames}" />
+				</h:selectOneMenu>
+				<h:commandButton action="#{dataUploadActions.executeExistingScript}"
+					value="Execute Script" />
+			</h:panelGrid>
+			<h:panelGrid rendered="#{dataUploadActions.renderQueryStatements}">
+				<h:outputText value="#{dataUploadActions.queryStatements}" />
+			</h:panelGrid>
+			<h:panelGrid rendered="#{dataUploadActions.renderScriptResults}">
+				<h:outputLabel align="center"
+					value="Select Queries from Script File " for="selectedSelectQuery"
+					style="font-weight:bold" />
+				<h:selectOneMenu value="#{dataUploadActions.selectedSelectQuery}">
+					<f:selectItems value="#{dataUploadActions.selectQueryStatements}" />
+				</h:selectOneMenu>
+				<h:commandButton action="#{dataUploadActions.showSelectResults}"
+					value="Execute Select" />
+			</h:panelGrid>
+			<div style="background-attachment: scroll; overflow: auto; height: 400px; background-repeat: repeat">
+				<h:panelGrid rendered="#{dataUploadActions.showResultSet}" rows="2">
+					<t:dataTable value="#{dataUploadActions.selectedResult}" var="row"
+						border="1" cellspacing="0" cellpadding="1"
+						columnClasses="columnClass1 border" headerClass="headerClass"
+						footerClass="footerClass" rowClasses="rowClass2"
+						styleClass="dataTableEx" width="700">
+						<t:columns var="col" value="#{dataUploadActions.resultColumnList}">
+							<f:facet name="header">
+								<t:outputText style="color:green" styleClass="outputHeader"
+									value="#{col}" />
+							</f:facet>
+							<div align="center">
+								<t:outputText styleClass="outputText" value="#{row[col]}" />
+							</div>
+						</t:columns>
+					</t:dataTable>
+				</h:panelGrid>
+			</div>
+		</h:form>
+	</div>
+</body>
+</html>

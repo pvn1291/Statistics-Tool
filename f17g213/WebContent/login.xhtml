@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+<body>
+	<div align="center">
+		<h1>IDS 517: f17g213</h1>
+		<h3>F17G213 Application Login</h3>
+	</div>
+	<hr/>
+	<div align="center">
+		<h:form>
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Username " for="username"
+					style="font-weight:bold" />
+				<h:inputText id="username" value="#{loginBean.username}"
+					required="true" requiredMessage="UserName: ?" />
+				<h:outputLabel value="Password " for="password"
+					style="font-weight:bold" />
+				<h:inputSecret id="password" value="#{loginBean.password}"
+					required="true" requiredMessage="Password: ?" />
+
+				<h:outputLabel for="dbmsType" value="RDBMS "
+					style="font-weight:bold" />
+				<h:selectOneMenu id="dbmsType" value="#{loginBean.dbmsType}">
+					<f:selectItem itemValue="MySQL" itemLabel="mysql" />
+					<f:selectItem itemValue="DB2" itemLabel="DB2" />
+					<f:selectItem itemValue="Oracle" itemLabel="Oracle" />
+				</h:selectOneMenu>
+				
+				<h:outputLabel for="dbHost" value="Host "
+					style="font-weight:bold" />
+				<h:selectOneMenu id="dbHost" value="#{loginBean.dbHost}">
+					<f:selectItem itemValue="131.193.209.54" itemLabel="Server 54" />
+					<f:selectItem itemValue="131.193.209.57" itemLabel="Server 57" />
+					<f:selectItem itemValue="131.193.209.68" itemLabel="Server 68" />
+					<f:selectItem itemValue="131.193.209.69" itemLabel="Server 69" />
+					<f:selectItem itemValue="localhost" itemLabel="localhost" />
+				</h:selectOneMenu>
+
+				<h:outputLabel for="dbSchema" value="Schema "
+					style="font-weight:bold" />
+				<h:inputText id="dbSchema" required="true" value="#{loginBean.dbSchema}" />
+
+				<div align="center">
+					<h:commandButton value="Login" type="submit" action="#{databaseBean.connect}" />
+				</div>
+			</h:panelGrid>
+			<br />
+			<h:outputText style="color:red;" value="#{databaseBean.errorMessage}" />
+			<h:message for="username" style="color:red;" errorClass="errorMessage" />
+			<h:message for="password" style="color:red;" errorClass="errorMessage" />
+			<br />
+		</h:form>
+	</div>
+</body>
+</html>

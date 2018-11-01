@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<body>
+	<div align="center">
+		<h1>IDS 517 | f17g213</h1>
+		<h3>F17G213 Application Menu</h3>
+	</div>
+	<div align="center">
+		<f:view>
+			<h:form>
+				<h:commandButton value="Logout" action="#{databaseBean.processLogout}"
+					styleClass="button" />
+				<hr/>				
+				<a href="statsActions.xhtml">Generate Descriptive Statistics</a><br />
+				<a href="databaseOperations.xhtml">Perform Database Operations</a><br />
+				<a href="dataVisualization.xhtml">Create Scatter Plot</a><br />
+				<a href="uploadSQLScript.xhtml">Import SQL Script</a><br />
+			</h:form>
+		</f:view>
+	</div>
+</body>
+</html>
